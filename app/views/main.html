@@ -1,42 +1,32 @@
 <div class="header">
     <ul class="nav nav-pills pull-right">
         <li class="active"><a ng-href="#">Home</a></li>
-        <li><a ng-href="#">About</a></li>
-        <li><a ng-href="#">Contact</a></li>
+        <li><a ng-href="#/tvshow">TV Show</a></li>
+        <li><a ng-href="#/template">template</a></li>
     </ul>
     <h3 class="text-muted">BSMashup webapp</h3>
 </div>
 
-<div class="jumbotron">
-    <h1>'Allo, 'Allo!</h1>
+<!--<div class="jumbotron">-->
+<!--<h1>'Allo, 'Allo!</h1>-->
 
-    <p class="lead">
-        <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-        Always a pleasure scaffolding your apps.
-    </p>
+<!--<p class="lead">-->
+<!--<img src="images/yeoman.png" alt="I'm Yeoman"><br>-->
+<!--Always a pleasure scaffolding your apps.-->
+<!--</p>-->
 
-    <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
+<!--<p><a class="btn btn-lg btn-success"-->
+<!--ng-href="https://www.betaseries.com/authorize?client_id=4614F428BAD8&redirect_uri=http://127.0.0.1:9000/#/">Splendid!</a>-->
+<!--</p>-->
+<!--</div>-->
 
-<div class="row marketing">
-    <h4>HTML5 Boilerplate</h4>
 
-    <p>
-        HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or
-        sites.
-    </p>
+<div class="msg" ng-hide="episodesList.length > 0">No episode unseen</div>
+<ul>
+    <li ng-repeat="show in episodesList">{{ show.title }} (unseen {{ show.unseen.length }})
 
-    <h4>Angular</h4>
+        <img ng-src="https://api.betaseries.com/pictures/shows?key=4614F428BAD8&v=2.2&id={{ show.id }}" alt=""/></li>
+</ul>
 
-    <p>
-        AngularJS is a toolset for building the framework most suited to your application development.
-    </p>
-
-    <h4>Karma</h4>
-
-    <p>Spectacular Test Runner for JavaScript.</p>
-</div>
-
-<div class="footer">
-    <p>♥ from the Yeoman team</p>
-</div>
+<!--{{ episodesList }}-->
+<!--{{ plop.shows }}-->
