@@ -16,7 +16,7 @@ angular.module('BSMashup.Webapp')
                     NProgress.start();
                     Fenopy.search($scope.show.title + ' 720p ' + $scope.data.code, 10)
                         .then(function (data) {
-                            console.log(data.length);
+                            console.log(data[1]);
 //                            $window.location = data[1].magnet;
 
                         })

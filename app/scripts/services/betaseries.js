@@ -10,7 +10,7 @@ angular.module('BSMashup.Webapp')
         defaultRequestParam.token = localStorage.userToken;
 
         // Restangular config
-        Restangular.setBaseUrl('http://192.168.1.87:9292/api.betaseries.com/');
+        Restangular.setBaseUrl('http://127.0.0.1:9293/betaseries');
         Restangular.setDefaultRequestParams('get', defaultRequestParam);
         Restangular.setDefaultRequestParams('post', defaultRequestParam);
 
