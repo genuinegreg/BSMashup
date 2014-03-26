@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('BSMashup.Webapp')
-    .controller('MainCtrl', function ($scope, $resource) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('MainCtrl', function (Betaseries, $scope, $route, $location, $window, episodesList) {
+        $scope.shows = episodesList.shows;
+        $scope.logout = Betaseries.logout;
+
     });

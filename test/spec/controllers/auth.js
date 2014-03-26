@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: AuthCtrl', function () {
 
     // load the controller's module
     beforeEach(module('bsmashupwebappApp'));
 
-    var MainCtrl,
+    var AuthCtrl,
         scope;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
-        MainCtrl = $controller('MainCtrl', {
+        AuthCtrl = $controller('AuthCtrl', {
             $scope: scope
         });
     }));
