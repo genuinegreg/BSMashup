@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BSMashup.Webapp')
-    .service('Betaseries', function Betaseries(Restangular, $window, $location, $q) {
+    .service('Betaseries', function Betaseries(Restangular, $window, $location, $q, $route) {
 
         // const
         var apiKey = '4614F428BAD8';
@@ -10,7 +10,7 @@ angular.module('BSMashup.Webapp')
         defaultRequestParam.token = localStorage.userToken;
 
         // Restangular config
-        Restangular.setBaseUrl('http://127.0.0.1:9292/api.betaseries.com/');
+        Restangular.setBaseUrl('http://192.168.1.87:9292/api.betaseries.com/');
         Restangular.setDefaultRequestParams('get', defaultRequestParam);
         Restangular.setDefaultRequestParams('post', defaultRequestParam);
 
@@ -69,9 +69,11 @@ angular.module('BSMashup.Webapp')
         }
 
         function logout() {
-            localStorage.logedin = undefined;
-            localStorage.userToken = undefined;
+            localStorage.removeItem('logedin');
+            localStorage.removeItem('userToken');
             defaultRequestParam.token = undefined;
+
+            $route.reload();
         }
 
 

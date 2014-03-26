@@ -1,32 +1,28 @@
-<div class="header">
-    <ul class="nav nav-pills pull-right">
-        <li class="active"><a ng-href="#">Home</a></li>
-        <li><a ng-href="#/tvshow">TV Show</a></li>
-        <li><a ng-href="#/template">template</a></li>
-    </ul>
-    <h3 class="text-muted">BSMashup webapp</h3>
+<h1>
+    <a href="#/">BSMashup</a>
+    <button type="button" ng-click="logout()">logout</button>
+</h1>
+
+<hr/>
+
+<div>
+    <h2>TV Shows</h2>
+    <!--<img class="img-responsive" src="http://thetvdb.com/banners/graphical/70522-g18.jpg" alt="...">-->
+
+
+    <div class="" ng-repeat="show in shows">
+
+
+        <div class="well">
+            <div class="caption">
+                <h4>{{ show.title }}</h4>
+                <ul class="list-group">
+                    <li ng-repeat="ep in show.unseen | limitTo:4">
+                        <episode show="show" data="ep"/>
+                    </li>
+                    <li class="list-group-item" ng-show="show.unseen.length > 4">more...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!--<div class="jumbotron">-->
-<!--<h1>'Allo, 'Allo!</h1>-->
-
-<!--<p class="lead">-->
-<!--<img src="images/yeoman.png" alt="I'm Yeoman"><br>-->
-<!--Always a pleasure scaffolding your apps.-->
-<!--</p>-->
-
-<!--<p><a class="btn btn-lg btn-success"-->
-<!--ng-href="https://www.betaseries.com/authorize?client_id=4614F428BAD8&redirect_uri=http://127.0.0.1:9000/#/">Splendid!</a>-->
-<!--</p>-->
-<!--</div>-->
-
-
-<div class="msg" ng-hide="episodesList.length > 0">No episode unseen</div>
-<ul>
-    <li ng-repeat="show in episodesList">{{ show.title }} (unseen {{ show.unseen.length }})
-
-        <img ng-src="https://api.betaseries.com/pictures/shows?key=4614F428BAD8&v=2.2&id={{ show.id }}" alt=""/></li>
-</ul>
-
-<!--{{ episodesList }}-->
-<!--{{ plop.shows }}-->

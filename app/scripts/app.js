@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('BSMashup.Webapp', [
-        'ngCookies',
-        'ngResource',
-        'ngSanitize',
-        'ngRoute',
-        'restangular'
-    ])
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute',
+    'restangular'
+])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
@@ -22,19 +22,6 @@ angular.module('BSMashup.Webapp', [
                 templateUrl: 'views/auth.html',
                 controller: 'AuthCtrl'
             })
-            .when('/tvshow', {
-                templateUrl: 'views/tvshow.html',
-                controller: 'TvshowCtrl'
-            })
-            .when('/template', {
-                templateUrl: 'views/template.html',
-                controller: 'MainCtrl',
-                resolve: {
-                    episodesList: ['Betaseries', function (Betaseries) {
-                        return Betaseries.episodeList();
-                    }]
-                }
-            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -42,7 +29,7 @@ angular.module('BSMashup.Webapp', [
 
 
 angular.module('BSMashup.Webapp')
-    .controller('RoutesCtrl', function ($scope) {
+    .controller('RoutesCtrl', function ($scope, $location, Betaseries) {
 
         console.log('mainCtrl loaded');
         $scope.$on('$routeChangeStart', function () {
@@ -53,8 +40,18 @@ angular.module('BSMashup.Webapp')
             console.log('$routeChangeSuccess');
             NProgress.done(true);
         });
-        $scope.$on('$routeChangeError', function () {
-            console.log('$routeChangeError');
+        $scope.$on('$routeChangeError', function (event, current, previous, rejection) {
+            console.log('$routeChangeError', event, current, previous, rejection);
             NProgress.done(true);
+
+            if (
+                rejection.status === 400 &&
+                rejection.data &&
+                rejection.data.errors &&
+                rejection.data.errors[0].code === 2001) {
+
+                Betaseries.logout();
+                $location.path('/auth');
+            }
         });
     });
