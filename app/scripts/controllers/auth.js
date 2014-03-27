@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('BSMashup.Webapp')
-    .controller('AuthCtrl', function ($location, Betaseries) {
+    .controller('AuthCtrl', function ($location, BetaSeries) {
 
-        if (Betaseries.isLogedin()) {
+        if (BetaSeries.isLogedin()) {
             $location.path('/');
             return;
         }
 
-        Betaseries.auth().then(function() {
-            if (Betaseries.isLogedin()) {
+        BetaSeries.auth().then(function() {
+            if (BetaSeries.isLogedin()) {
                 $location.path('/');
                 return;
             }

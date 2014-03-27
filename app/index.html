@@ -31,7 +31,7 @@
 
 <!-- Add your site or application content here -->
 <div class="container" ng-view>
-    Loading
+    Loading...
 </div>
 
 
@@ -51,6 +51,7 @@
 <script src="bower_components/lodash/dist/lodash.compat.js"></script>
 <script src="bower_components/restangular/dist/restangular.js"></script>
 <script src="bower_components/nprogress/nprogress.js"></script>
+<script src="bower_components/angular-local-storage/angular-local-storage.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -62,5 +63,27 @@
 <script src="scripts/services/fenopy.js"></script>
 <script src="scripts/directives/episode.js"></script>
 <!-- endbuild -->
+
+
+<script type="application/javascript">
+
+    // Betaseries configuration
+    angular.module('BSMashup.BetaSeries').config(function ($provide) {
+
+        $provide.value(
+                'BETA_SERIES_BASE_URL',
+                'http://127.0.0.1:9293/betaseries');
+
+        $provide.value(
+                'BETA_SERIES_KEY',
+                '4614F428BAD8');
+
+        $provide.value(
+                'BETA_SERIES_VERSION',
+                '2.2');
+
+    });
+
+</script>
 </body>
 </html>

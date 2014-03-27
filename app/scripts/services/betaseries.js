@@ -1,84 +1,71 @@
 'use strict';
 
-angular.module('BSMashup.Webapp')
-    .service('Betaseries', function Betaseries(Restangular, $window, $location, $q, $route) {
+angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
+    .config(function (localStorageServiceProvider) {
+        localStorageServiceProvider.setPrefix('BSMashup.BetaSeries');
+    })
+    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_VERSION, $window, $location, $q, $route) {
 
-        // const
-        var apiKey = '4614F428BAD8';
+        /**
+         * get or set betaseries user token
+         * @param [t] token
+         * @returns {String|undefined} token
+         */
+        function token(t) {
+            if (!t) {
+                return localStorageService.get('token');
+            }
+            localStorageService.add('token', t);
+        }
 
-        var defaultRequestParam = {v: '2.2', key: apiKey};
-        defaultRequestParam.token = localStorage.userToken;
 
-        // Restangular config
-        Restangular.setBaseUrl('http://127.0.0.1:9293/betaseries');
-        Restangular.setDefaultRequestParams('get', defaultRequestParam);
-        Restangular.setDefaultRequestParams('post', defaultRequestParam);
+        // betaseries restangular config
+        var rest = Restangular.withConfig(function (RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(BETA_SERIES_BASE_URL);
+            RestangularConfigurer.setDefaultHeaders(
+                {
+                    'X-BetaSeries-Version': BETA_SERIES_VERSION,
+                    'X-BetaSeries-Key': BETA_SERIES_KEY,
+                    'X-BetaSeries-Token': token()
+                }
+            );
+        });
 
 
         function auth() {
+            // if logged-in just pass
+            if (token()) {
+                return $q.defer().resolve();
+            }
 
-            var d = $q.defer();
-
-            // if not loged in && no usertoken in location.search => redirect to betaseries to login
-            if (!isLogedin() && !$location.search().token) {
-
-                console.log('!logedin + !token');
-
-                Restangular.all('members').one('oauth').post().then(
-                    function resolve(res) {
-                        console.log('response :', res);
+            // if url is clean (no token) get and oauth key and redirect  to betaseries for login
+            if (!$location.search().token) {
+                return rest.all('members').one('oauth').post().then(
+                    function resolved(res) {
                         if (!res.oauth.key) {
-                            d.reject();
-                            return;
+                            return $q.reject('can\'t get an oauth key');
                         }
-                        d.resolve();
                         $window.location = 'https://www.betaseries.com/oauth?key=' + res.oauth.key;
-
-                    },
-                    function reject() {
-                        d.reject();
-                    });
-
-                return d.promise;
+                    }
+                );
             }
 
-            // if not loged in and we get a token inlocation.search
-            if (!isLogedin() && $location.search().token) {
-                console.log('!logedin + token');
-
-                localStorage.logedin = true;
-                localStorage.userToken = $location.search().token;
-
-                defaultRequestParam.token = localStorage.userToken;
-
-                // wipe token from url
-                $location.search('token', undefined);
-                d.resolve();
-                return d.promise;
-            }
-
-            if (isLogedin()) {
-                d.resolve();
-            }
-
-            return d.promise;
-        }
-
-        function isLogedin() {
-            return localStorage.logedin && localStorage.userToken;
+            // save auth token
+            token($location.search().token);
+            $route.reload();
+            return $q.defer().resolve('loggedIn');
         }
 
         function logout() {
-            localStorage.removeItem('logedin');
-            localStorage.removeItem('userToken');
-            defaultRequestParam.token = undefined;
-
+            localStorageService.clearAll();
             $route.reload();
         }
 
 
         return {
-            isLogedin: isLogedin,
+            isLoggedIn: function() {
+                return !!token();
+            },
             auth: auth,
             logout: logout,
             episodeList: function episodeList(limit, showId) {
@@ -90,7 +77,7 @@ angular.module('BSMashup.Webapp')
                     showId: showId
                 };
 
-                return Restangular.all('episodes').get('list', params);
+                return rest.all('episodes').get('list', params);
             }
         };
 

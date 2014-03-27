@@ -5,7 +5,8 @@ angular.module('BSMashup.Webapp', [
     'ngResource',
     'ngSanitize',
     'ngRoute',
-    'restangular'
+    'restangular',
+    'BSMashup.BetaSeries'
 ])
     .config(function ($routeProvider) {
         $routeProvider
@@ -13,8 +14,8 @@ angular.module('BSMashup.Webapp', [
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl',
                 resolve: {
-                    episodesList: ['Betaseries', function (Betaseries) {
-                        return Betaseries.episodeList();
+                    episodesList: ['BetaSeries', function (BetaSeries) {
+                        return BetaSeries.episodeList();
                     }]
                 }
             })
@@ -29,7 +30,7 @@ angular.module('BSMashup.Webapp', [
 
 
 angular.module('BSMashup.Webapp')
-    .controller('RoutesCtrl', function ($scope, $location, Betaseries) {
+    .controller('RoutesCtrl', function ($scope, $location, BetaSeries) {
 
         console.log('mainCtrl loaded');
         $scope.$on('$routeChangeStart', function () {
@@ -50,7 +51,7 @@ angular.module('BSMashup.Webapp')
                 rejection.data.errors &&
                 rejection.data.errors[0].code === 2001) {
 
-                Betaseries.logout();
+                BetaSeries.logout();
                 $location.path('/auth');
             }
         });
