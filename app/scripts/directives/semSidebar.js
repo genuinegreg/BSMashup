@@ -15,7 +15,7 @@ angular.module('BSMashup.Webapp')
                     element.sidebar('show');
                 }
 
-                element.sidebar('attach events', '.toggle.button')
+//                element.sidebar('attach events', '.toggle.button')
             }
         };
     });

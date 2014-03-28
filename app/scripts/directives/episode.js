@@ -40,7 +40,7 @@ angular.module('BSMashup.Webapp')
                                 else {
                                     return 0;
                                 }
-                            })
+                            });
                             window.location = data.subtitles[0].url;
                         })
                         .finally(NProgress.done);
