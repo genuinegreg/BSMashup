@@ -1,4 +1,35 @@
-<div>
-    {{ data.code }} - <strong>{{ data.title }}</strong> - <small>{{ data.date  | date:'fullDate' }}</small>
-    <button type="button" ng-click="openMagnet()">magnet</button>
+<div class="item">
+    <div class="right floated">
+        <div class="tiny ui teal icon buttons">
+            <div class="ui button"
+                 ng-class="{basic: ep.user.downloaded}"
+                 ng-click="setDownloaded(ep)">
+                <i class="align download disk icon"></i>
+            </div>
+            <div class="ui button"
+                 ng-class="{basic: ep.user.seen}"
+                 ng-click="setWatched(ep)">
+                <i class="align unhide icon"></i></div>
+        </div>
+    </div>
+    <i class="ui video icon"></i>
+
+    <div class="content">
+        <div class="header">
+            {{ ep.code }} -
+            <a href="#/series/show/{{ep.show_id}}/episode/{{ep.id}}">
+                {{ ep.title }}
+            </a>
+        </div>
+        <button class="ui mini basic labeled icon button"
+                ng-click="openMagnet(ep, show)">
+            <i class="ui magnet icon"></i>
+            Magnet
+        </button>
+        <button class="ui mini basic labeled icon button"
+                ng-click="openSubtitle(ep)">
+            <i class="ui align center icon"></i>
+            Sous-titre
+        </button>
+    </div>
 </div>

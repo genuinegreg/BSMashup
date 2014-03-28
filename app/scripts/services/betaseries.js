@@ -4,7 +4,7 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
     .config(function (localStorageServiceProvider) {
         localStorageServiceProvider.setPrefix('BSMashup.BetaSeries');
     })
-    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_VERSION, $window, $location, $q, $route) {
+    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_VERSION, $window, $location, $q, $state) {
 
         /**
          * get or set betaseries user token
@@ -22,20 +22,45 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
         // betaseries restangular config
         var rest = Restangular.withConfig(function (RestangularConfigurer) {
             RestangularConfigurer.setBaseUrl(BETA_SERIES_BASE_URL);
-            RestangularConfigurer.setDefaultHeaders(
+        });
+
+        rest.addElementTransformer('episodes', true, function(episodes) {
+
+            episodes.addRestangularMethod('getList', 'get', 'list');
+            episodes.addRestangularMethod('postDownloaded', 'post', 'downloaded');
+            episodes.addRestangularMethod('removeDownloaded', 'remove', 'downloaded');
+            episodes.addRestangularMethod('postWatched', 'post', 'watched');
+            episodes.addRestangularMethod('removeWatched', 'remove', 'watched');
+
+            return episodes;
+        });
+
+        rest.addElementTransformer('subtitles', true, function(episodes) {
+
+            episodes.addRestangularMethod('getList', 'get', 'episode');
+
+            return episodes;
+        });
+
+        function setDefaultHeader() {
+            rest.setDefaultHeaders(
                 {
                     'X-BetaSeries-Version': BETA_SERIES_VERSION,
                     'X-BetaSeries-Key': BETA_SERIES_KEY,
                     'X-BetaSeries-Token': token()
                 }
             );
-        });
+        }
+        setDefaultHeader();
 
 
-        function auth() {
+        function login() {
+            var d = $q.defer();
+
             // if logged-in just pass
             if (token()) {
-                return $q.defer().resolve();
+                d.resolve();
+                return d.promise;
             }
 
             // if url is clean (no token) get and oauth key and redirect  to betaseries for login
@@ -52,13 +77,14 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
 
             // save auth token
             token($location.search().token);
-            $route.reload();
-            return $q.defer().resolve('loggedIn');
+            setDefaultHeader();
+
+            d.resolve('loggedIn');
+            return d.promise;
         }
 
         function logout() {
             localStorageService.clearAll();
-            $route.reload();
         }
 
 
@@ -66,9 +92,9 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
             isLoggedIn: function() {
                 return !!token();
             },
-            auth: auth,
+            login: login,
             logout: logout,
-            episodeList: function episodeList(limit, showId) {
+            episodesList: function episodesList(limit, showId) {
                 limit = limit || undefined;
                 showId = showId || undefined;
 
@@ -77,8 +103,10 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
                     showId: showId
                 };
 
-                return rest.all('episodes').get('list', params);
-            }
+                return rest.all('episodes').getList(params);
+            },
+            rest: rest
+
         };
 
 

@@ -1,0 +1,10 @@
+
+- root
+    - series
+        - episodes
+        - list
+        - show/:showId
+            - episodes
+            - episode/:episodeId
+    - config
+

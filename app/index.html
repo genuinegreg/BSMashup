@@ -12,25 +12,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <!--<meta name="viewport" content="width=device-width">-->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/semantic/build/packaged/css/semantic.css">
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="bower_components/nprogress/nprogress.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/nprogress.css">
     <!-- endbuild -->
 </head>
-<body ng-app="BSMashup.Webapp" ng-controller="RoutesCtrl">
+<body ng-app="BSMashup.Webapp" ng-controller="StateChangeCtrl" class="side left pushed" ng-swipe-left="swipeLeft()" ng-swipe-right="swipeRight()">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container" ng-view>
+<div ui-view autoscroll="false">
     Loading...
 </div>
 
@@ -47,21 +50,24 @@
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/lodash/dist/lodash.compat.js"></script>
 <script src="bower_components/restangular/dist/restangular.js"></script>
 <script src="bower_components/nprogress/nprogress.js"></script>
 <script src="bower_components/angular-local-storage/angular-local-storage.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
 <!-- endbower -->
+<script src="bower_components/semantic/build/packaged/javascript/semantic.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
+<script src="scripts/controllers/episodes.js"></script>
 <script src="scripts/services/betaseries.js"></script>
 <script src="scripts/controllers/auth.js"></script>
 <script src="scripts/services/fenopy.js"></script>
 <script src="scripts/directives/episode.js"></script>
+<script src="scripts/directives/semSidebar.js"></script>
 <!-- endbuild -->
 
 
@@ -72,7 +78,7 @@
 
         $provide.value(
                 'BETA_SERIES_BASE_URL',
-                'http://127.0.0.1:9293/betaseries');
+                'http://192.168.1.87:9293/betaseries');
 
         $provide.value(
                 'BETA_SERIES_KEY',

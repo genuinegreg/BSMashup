@@ -8,17 +8,78 @@ angular.module('BSMashup.Webapp')
             replace: true,
             scope: {
                 show: '=',
-                data: '='
+                ep: '=data'
             },
-            controller: function ($scope, $window, Fenopy) {
+            controller: function ($scope, $window, Fenopy, BetaSeries) {
 
-                $scope.openMagnet = function () {
+                var episodes = BetaSeries.rest.all('episodes');
+                var subtitles = BetaSeries.rest.all('subtitles');
+
+                $scope.openMagnet = function (ep, show) {
                     NProgress.start();
-                    Fenopy.search($scope.show.title + ' 720p ' + $scope.data.code, 10)
+                    Fenopy.search(show.title + ' 720p ' + ep.code, 10)
                         .then(function (data) {
-                            console.log(data[1]);
-//                            $window.location = data[1].magnet;
+                            $window.location = data[1].magnet;
 
+                        })
+                        .finally(NProgress.done);
+                };
+
+                $scope.openSubtitle = function (ep) {
+                    NProgress.start();
+
+                    subtitles.getList({id: ep.id, language: 'vf'})
+                        .then(function (data) {
+                            data.subtitles.sort(function (a, b) {
+                                if (a.quality > b.quality) {
+                                    return -1;
+                                }
+                                else if (a.quality < b.quality) {
+                                    return 1;
+                                }
+                                else {
+                                    return 0;
+                                }
+                            })
+                            window.location = data.subtitles[0].url;
+                        })
+                        .finally(NProgress.done);
+                };
+
+                $scope.setDownloaded = function (ep) {
+                    NProgress.start();
+
+                    var promise;
+                    if (!ep.user.downloaded) {
+                        promise = episodes.postDownloaded({}, {id: ep.id});
+                    }
+                    else {
+                        promise = episodes.removeDownloaded({}, {id: ep.id});
+                    }
+
+                    promise
+                        .then(function () {
+                            ep.user.downloaded = !ep.user.downloaded;
+                        })
+                        .finally(function () {
+                            NProgress.done();
+                        });
+                };
+
+                $scope.setWatched = function (ep) {
+                    NProgress.start();
+
+                    var promise;
+                    if (!ep.user.seen) {
+                        promise = episodes.postWatched({}, {id: ep.id});
+                    }
+                    else {
+                        promise = episodes.removeWatched({}, {id: ep.id});
+                    }
+
+                    promise
+                        .then(function () {
+                            ep.user.seen = !ep.user.seen;
                         })
                         .finally(function () {
                             NProgress.done();
