@@ -6,6 +6,7 @@ html, body {
 
 #bsmashup-content {
     margin: 3rem 4rem;
+    margin-top: 19rem;
     max-width: 1200px;
 }
 
@@ -28,4 +29,8 @@ h1.ui.header {
 .sitebanner {
     box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 5px !important;
     padding:3rem 4rem 1rem !important;
+
+    position: relative !important;
+    top: 0; bottom: 0; left: 0; right: 0;
+    height:14rem ;
 }
