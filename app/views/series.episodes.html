@@ -1,0 +1,13 @@
+<div class="column" ng-repeat="show in shows">
+    <div class="ui purple segment">
+        <h3 class="ui header">
+            {{ show.title }}
+        </h3>
+
+        <div class="ui very relaxed divided list">
+
+            <episode show="show" data="ep" ng-repeat="ep in show.unseen | limitTo:4"/>
+
+        </div>
+    </div>
+</div>

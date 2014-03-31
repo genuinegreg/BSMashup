@@ -2,57 +2,83 @@
 
 angular.module('BSMashup.Webapp', [
     'ngCookies',
+    'ngTouch',
     'ngResource',
     'ngSanitize',
-    'ngRoute',
+    'ui.router',
     'restangular',
     'BSMashup.BetaSeries'
 ])
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
+    .config(function ($stateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider.otherwise('/series/episodes');
+
+        $stateProvider
+            .state('landing', {
+                url: '/landing',
+                templateUrl: 'views/landing.html'
+            })
+            .state('series', {
+                url: '/series',
+                templateUrl: 'views/root.html'
+            })
+            .state('series.episodes', {
+                url: '/episodes',
+                templateUrl: 'views/series.episodes.html',
+                controller: 'EpisodesCtrl',
                 resolve: {
                     episodesList: ['BetaSeries', function (BetaSeries) {
-                        return BetaSeries.episodeList();
+                        return BetaSeries.episodesList();
                     }]
                 }
-            })
-            .when('/auth', {
-                templateUrl: 'views/auth.html',
-                controller: 'AuthCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
             });
     });
 
 
 angular.module('BSMashup.Webapp')
-    .controller('RoutesCtrl', function ($scope, $location, BetaSeries) {
+    .controller('StateChangeCtrl', function ($scope, $state, $location, BetaSeries) {
+
+        $scope.swipeLeft = function () {
+            console.log('swipeLeft');
+            $scope.openSidebar = false;
+            $('.ui.sidebar').sidebar('hide');
+        };
+
+        $scope.swipeRight = function () {
+            console.log('swipeRight');
+            $scope.openSidebar = true;
+            $('.ui.sidebar').sidebar('show');
+        };
+
 
         console.log('mainCtrl loaded');
-        $scope.$on('$routeChangeStart', function () {
-            console.log('$routeChangeStart');
+        $scope.$on('$stateChangeStart', function () {
+            console.log('$stateChangeStart');
             NProgress.start();
         });
-        $scope.$on('$routeChangeSuccess', function () {
-            console.log('$routeChangeSuccess');
+        $scope.$on('$stateChangeSuccess', function () {
+            console.log('$stateChangeSuccess');
             NProgress.done(true);
         });
-        $scope.$on('$routeChangeError', function (event, current, previous, rejection) {
-            console.log('$routeChangeError', event, current, previous, rejection);
+        $scope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            console.log('$stateChangeError', event, toState, toParams, fromState, fromParams, error);
             NProgress.done(true);
 
+            $scope.toState = toState;
+            $scope.toParam = toParams;
+
             if (
-                rejection.status === 400 &&
-                rejection.data &&
-                rejection.data.errors &&
-                rejection.data.errors[0].code === 2001) {
+                error.status === 400 &&
+                error.data &&
+                error.data.errors &&
+                error.data.errors[0].code === 2001) {
+
+                console.log('login in');
 
                 BetaSeries.logout();
-                $location.path('/auth');
+                BetaSeries.login().then(function () {
+                    $state.go(toState, toParams);
+                });
             }
         });
     });
