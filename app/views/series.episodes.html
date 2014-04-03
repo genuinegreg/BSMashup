@@ -1,13 +1,20 @@
 <div class="column" ng-repeat="show in shows">
-    <div class="ui purple segment">
-        <h3 class="ui header">
-            {{ show.title }}
-        </h3>
 
-        <div class="ui very relaxed divided list">
+    <div class="ui black top attached header">
+        {{ show.title }}
+    </div>
 
-            <episode show="show" data="ep" ng-repeat="ep in show.unseen | limitTo:4"/>
+    <div class="ui divided list attached segment" ng-class="{bottom: show.unseen.length <= 5}">
+            <episode class="item" show="show" data="ep" ng-repeat="ep in show.unseen | limitTo:5"></episode>
+    </div>
+    <div class="ui bottom attached icon info message" ng-show="show.unseen.length > 5">
+        <i class="inbox icon"></i>
 
+        <div class="content">
+            <a ng-href="#/series/{{show.id}}" class="header">Voir tous les épisodes </a>
+            <p>
+                {{ show.unseen.length - 5 }} épisodes masqués
+            </p>
         </div>
     </div>
 </div>

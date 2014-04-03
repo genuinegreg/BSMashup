@@ -2,13 +2,8 @@
 
 angular.module('BSMashup.Webapp',
     [
-        'ngCookies',
-        'ngTouch',
-        'ngResource',
-        'ngSanitize',
         'ui.router',
         'restangular',
-        'angularOauth',
         'BSMashup.BetaSeries'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -16,18 +11,15 @@ angular.module('BSMashup.Webapp',
         $urlRouterProvider.otherwise('/series/episodes');
 
         $stateProvider
-            .state('login', {
-                url: '/login',
-                templateUrl: 'views/login.html',
-                controller: 'LoginCtrl'
-            })
             .state('landing', {
                 url: '/landing',
-                templateUrl: 'views/landing.html'
+                templateUrl: 'views/landing.html',
+                controller: 'LandingCtrl'
             })
             .state('series', {
+                abstract: true,
                 url: '/series',
-                templateUrl: 'views/root.html'
+                templateUrl: '../views/series.html'
             })
             .state('series.episodes', {
                 url: '/episodes',
@@ -38,6 +30,48 @@ angular.module('BSMashup.Webapp',
                         return BetaSeries.rest.all('episodes').getList();
                     }]
                 }
+            })
+            .state('series.details', {
+                url: '/:showId',
+                templateUrl: 'views/series.details.html',
+                controller: 'ShowDetailsCtrl',
+                resolve: {
+                    showDetails: ['BetaSeries', '$stateParams', function (BetaSeries, $stateParams) {
+                        return BetaSeries.rest.all('shows').getDetails({
+                            id: $stateParams.showId
+                        });
+                    }],
+                    episodesList: ['BetaSeries', '$stateParams', function (BetaSeries, $stateParams) {
+                        return BetaSeries.rest.all('episodes').getList($stateParams);
+                    }]
+                }
+            })
+//            .state('series.episode', {
+//                abstract: true,
+//                template: '<div ui-view></div>'
+//            })
+            .state('series.episode', {
+                url: '/:showId/episode/:id',
+                templateUrl: 'views/series.episodes.details.html',
+                controller: 'EpisodeDetailsCtrl',
+                resolve: {
+                    episodeDetails: ['BetaSeries', '$stateParams', function (BetaSeries, $stateParams) {
+                        return BetaSeries.rest.all('episodes').getDetails({id: $stateParams.id, subtitles: true});
+                    }],
+                    torrentsList: ['Fenopy', 'BetaSeries', '$stateParams', function (Fenopy, BetaSeries, $stateParams) {
+                        return BetaSeries.rest.all('episodes').getDetails({id: $stateParams.id, subtitles: true})
+                            .then(function (episodeDetails) {
+                                return episodeDetails.episode;
+                            })
+                            .then(function(episode) {
+                                /* jshint ignore:start */
+                                return Fenopy.search(episode.show_title + ' 720p ' + episode.code, 10);
+                                /* jshint ignore:end */
+                                return;
+                            });
+                    }]
+                }
+
             });
     });
 
@@ -45,16 +79,9 @@ angular.module('BSMashup.Webapp',
 angular.module('BSMashup.Webapp')
     .controller('StateChangeCtrl', function ($scope, $state, $location, BetaSeries) {
 
-        $scope.swipeLeft = function () {
-            console.log('swipeLeft');
-            $scope.openSidebar = false;
-            $('.ui.sidebar').sidebar('hide');
-        };
-
-        $scope.swipeRight = function () {
-            console.log('swipeRight');
-            $scope.openSidebar = true;
-            $('.ui.sidebar').sidebar('show');
+        $scope.logout = function () {
+            BetaSeries.logout();
+            $state.go('landing');
         };
 
 
@@ -80,10 +107,9 @@ angular.module('BSMashup.Webapp')
                 error.data.errors &&
                 error.data.errors[0].code === 2001) {
 
-                console.log('login in');
 
                 BetaSeries.logout();
-                $state.go('login');
+                $state.go('landing');
             }
         });
     });

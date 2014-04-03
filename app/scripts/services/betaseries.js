@@ -135,10 +135,11 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
         });
         _this.rest = rest;
 
-        // define restAngular episodes element transformer
+        // define restAngular 'episodes' element transformer
         rest.addElementTransformer('episodes', true, function (episodes) {
 
             episodes.addRestangularMethod('getList', 'get', 'list');
+            episodes.addRestangularMethod('getDetails', 'get', 'display');
             episodes.addRestangularMethod('postDownloaded', 'post', 'downloaded');
             episodes.addRestangularMethod('removeDownloaded', 'remove', 'downloaded');
             episodes.addRestangularMethod('postWatched', 'post', 'watched');
@@ -147,10 +148,18 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
             return episodes;
         });
 
-        // define restAngular subtitles element transformer
+        // define restAngular 'subtitles' element transformer
         rest.addElementTransformer('subtitles', true, function (episodes) {
 
             episodes.addRestangularMethod('getList', 'get', 'episode');
+
+            return episodes;
+        });
+
+        // define restAngular 'shows' element transformer
+        rest.addElementTransformer('shows', true, function (episodes) {
+
+            episodes.addRestangularMethod('getDetails', 'get', 'display');
 
             return episodes;
         });

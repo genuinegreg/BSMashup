@@ -1,0 +1,18 @@
+<div class="column">
+    <h2 class="ui top attached header">
+        {{ show.title }}
+    </h2>
+
+    <div class="ui bottom attached message"> {{ show.description }}</div>
+</div>
+
+<div class="column">
+    <div class="ui segment">
+        <h3 class="ui header">{{ unseen.length }} épisodes non vu </h3>
+
+        <div class="ui relaxed divided list">
+            <episode class="item" show="show" data="ep" ng-repeat="ep in unseen"></episode>
+        </div>
+    </div>
+
+</div>

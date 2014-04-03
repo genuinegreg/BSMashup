@@ -1,5 +1,16 @@
-<div class="item">
+<div>
     <div class="right floated">
+
+        <div class="tiny ui icon buttons">
+            <div class="ui button"
+                 ng-click="openMagnet(ep, show)">
+                <i class="magnet icon"></i>
+            </div>
+            <div class="ui button"
+                 ng-click="openSubtitle(ep)">
+                <i class="text file ouline icon"></i></div>
+        </div>
+
         <div class="tiny ui teal icon buttons">
             <div class="ui button"
                  ng-class="{basic: ep.user.downloaded}"
@@ -17,19 +28,19 @@
     <div class="content">
         <div class="header">
             {{ ep.code }} -
-            <a href="#/series/show/{{ep.show_id}}/episode/{{ep.id}}">
+            <a href="#/series/{{ep.show_id}}/episode/{{ep.id}}">
                 {{ ep.title }}
             </a>
         </div>
-        <button class="ui mini basic labeled icon button"
-                ng-click="openMagnet(ep, show)">
-            <i class="ui magnet icon"></i>
-            Magnet
-        </button>
-        <button class="ui mini basic labeled icon button"
-                ng-click="openSubtitle(ep)">
-            <i class="ui align center icon"></i>
-            Sous-titre
-        </button>
+        <!--<button class="ui mini basic labeled icon button"-->
+                <!--ng-click="openMagnet(ep, show)">-->
+            <!--<i class="ui magnet icon"></i>-->
+            <!--Magnet-->
+        <!--</button>-->
+        <!--<button class="ui mini basic labeled icon button"-->
+                <!--ng-click="openSubtitle(ep)">-->
+            <!--<i class="ui align center icon"></i>-->
+            <!--Sous-titre-->
+        <!--</button>-->
     </div>
 </div>
