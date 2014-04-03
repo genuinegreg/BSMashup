@@ -4,27 +4,139 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
     .config(function (localStorageServiceProvider) {
         localStorageServiceProvider.setPrefix('BSMashup.BetaSeries');
     })
-    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_VERSION, $window, $location, $q, $state) {
+    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_SECRET_KEY, BETA_SERIES_VERSION, $rootScope, $window, $location, $q) {
+
+        var _this = this;
+
+        //**************************************
+        // Methods definition
 
         /**
-         * get or set betaseries user token
+         * get or set betaSeries user token
          * @param [t] token
          * @returns {String|undefined} token
          */
-        function token(t) {
+        _this.token = function (t) {
             if (!t) {
                 return localStorageService.get('token');
             }
+            _this.loggedIn = !!t;
             localStorageService.add('token', t);
-        }
+
+        };
+
+        /**
+         * Initialize login flow
+         * @returns {*}
+         */
+        _this.login = function () {
+
+            console.log('loggin in');
+
+            var d = $q.defer();
+
+            // if logged-in just pass
+            if (_this.token()) {
+                d.resolve();
+                return d.promise;
+            }
+
+
+            var popupOptions = {
+                name: 'BetaSeries login',
+                openParams: {
+                    width: 650,
+                    height: 300,
+                    resizable: true,
+                    scrollbars: true,
+                    status: true
+                }
+            };
+
+            var params = {
+                /* jshint ignore:start */
+                client_id: BETA_SERIES_KEY,
+                redirect_uri: $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/oauth.html'
+                /* jshint ignore:end */
+            };
+
+            console.log(params);
+
+
+            var formatPopupOptions = function (options) {
+                var pairs = [];
+                angular.forEach(options, function (value, key) {
+                    if (value || value === 0) {
+                        value = value === true ? 'yes' : value;
+                        pairs.push(key + '=' + value);
+                    }
+                });
+                return pairs.join(',');
+            };
+
+            var popupDefered = $q.defer();
+
+            $window.open(
+                    'https://www.betaseries.com/authorize?client_id=' + BETA_SERIES_KEY + '&redirect_uri=' + $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/oauth.html',
+                popupOptions.name,
+                formatPopupOptions(popupOptions.openParams));
+
+            window.addEventListener('message', function (event) {
+                if (
+                    event.origin === $location.protocol() + '://' + $location.host() + ':' + $location.port() &&
+                    event.data.code) {
+
+                    popupDefered.resolve(event.data.code);
+                }
+            });
+
+
+            popupDefered.promise.then(function (code) {
+
+                console.log('post call');
+
+                /*jshint camelcase: false */
+                rest.all('members').customPOST(
+                    {},
+                    'access_token', {
+                        client_id: BETA_SERIES_KEY,
+                        client_secret: BETA_SERIES_SECRET_KEY,
+                        redirect_uri: params.redirect_uri,
+                        code: code
+                    })
+                    .then(function (data) {
+                        _this.token(data.token);
+                        setDefaultHeader();
+                        d.resolve();
+                    });
+                /* jshint camelcase: true */
+            });
+
+            return d.promise;
+        };
+
+        /**
+         * Log out from betaseries
+         */
+        _this.logout = function () {
+            localStorageService.clearAll();
+            setDefaultHeader();
+            _this.loggedIn = false;
+        };
+
+
+        //*****************************************
+        // config
 
 
         // betaseries restangular config
         var rest = Restangular.withConfig(function (RestangularConfigurer) {
             RestangularConfigurer.setBaseUrl(BETA_SERIES_BASE_URL);
         });
+        _this.rest = rest;
 
-        rest.addElementTransformer('episodes', true, function(episodes) {
+        // define restAngular episodes element transformer
+        rest.addElementTransformer('episodes', true, function (episodes) {
 
             episodes.addRestangularMethod('getList', 'get', 'list');
             episodes.addRestangularMethod('postDownloaded', 'post', 'downloaded');
@@ -35,79 +147,30 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
             return episodes;
         });
 
-        rest.addElementTransformer('subtitles', true, function(episodes) {
+        // define restAngular subtitles element transformer
+        rest.addElementTransformer('subtitles', true, function (episodes) {
 
             episodes.addRestangularMethod('getList', 'get', 'episode');
 
             return episodes;
         });
 
+
+        // default header function
         function setDefaultHeader() {
             rest.setDefaultHeaders(
                 {
                     'X-BetaSeries-Version': BETA_SERIES_VERSION,
                     'X-BetaSeries-Key': BETA_SERIES_KEY,
-                    'X-BetaSeries-Token': token()
+                    'X-BetaSeries-Token': _this.token ? _this.token() : undefined
                 }
             );
         }
+
+        // set default header
         setDefaultHeader();
 
-
-        function login() {
-            var d = $q.defer();
-
-            // if logged-in just pass
-            if (token()) {
-                d.resolve();
-                return d.promise;
-            }
-
-            // if url is clean (no token) get and oauth key and redirect  to betaseries for login
-            if (!$location.search().token) {
-                return rest.all('members').one('oauth').post().then(
-                    function resolved(res) {
-                        if (!res.oauth.key) {
-                            return $q.reject('can\'t get an oauth key');
-                        }
-                        $window.location = 'https://www.betaseries.com/oauth?key=' + res.oauth.key;
-                    }
-                );
-            }
-
-            // save auth token
-            token($location.search().token);
-            setDefaultHeader();
-
-            d.resolve('loggedIn');
-            return d.promise;
-        }
-
-        function logout() {
-            localStorageService.clearAll();
-        }
-
-
-        return {
-            isLoggedIn: function() {
-                return !!token();
-            },
-            login: login,
-            logout: logout,
-            episodesList: function episodesList(limit, showId) {
-                limit = limit || undefined;
-                showId = showId || undefined;
-
-                var params = {
-                    limit: limit,
-                    showId: showId
-                };
-
-                return rest.all('episodes').getList(params);
-            },
-            rest: rest
-
-        };
+        _this.loggedIn = !!_this.token();
 
 
     });

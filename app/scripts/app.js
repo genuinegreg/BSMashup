@@ -1,19 +1,26 @@
 'use strict';
 
-angular.module('BSMashup.Webapp', [
-    'ngCookies',
-    'ngTouch',
-    'ngResource',
-    'ngSanitize',
-    'ui.router',
-    'restangular',
-    'BSMashup.BetaSeries'
-])
+angular.module('BSMashup.Webapp',
+    [
+        'ngCookies',
+        'ngTouch',
+        'ngResource',
+        'ngSanitize',
+        'ui.router',
+        'restangular',
+        'angularOauth',
+        'BSMashup.BetaSeries'
+    ])
     .config(function ($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/series/episodes');
 
         $stateProvider
+            .state('login', {
+                url: '/login',
+                templateUrl: 'views/login.html',
+                controller: 'LoginCtrl'
+            })
             .state('landing', {
                 url: '/landing',
                 templateUrl: 'views/landing.html'
@@ -28,7 +35,7 @@ angular.module('BSMashup.Webapp', [
                 controller: 'EpisodesCtrl',
                 resolve: {
                     episodesList: ['BetaSeries', function (BetaSeries) {
-                        return BetaSeries.episodesList();
+                        return BetaSeries.rest.all('episodes').getList();
                     }]
                 }
             });
@@ -76,9 +83,7 @@ angular.module('BSMashup.Webapp')
                 console.log('login in');
 
                 BetaSeries.logout();
-                BetaSeries.login().then(function () {
-                    $state.go(toState, toParams);
-                });
+                $state.go('login');
             }
         });
     });

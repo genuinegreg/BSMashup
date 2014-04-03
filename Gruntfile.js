@@ -296,7 +296,8 @@ module.exports = function (grunt) {
                             'views/{,*/}*.html',
                             'bower_components/**/*',
                             'images/{,*/}*.{webp}',
-                            'fonts/*'
+                            'fonts/*',
+                            'run.js'
                         ]
                     },
                     {
@@ -304,6 +305,12 @@ module.exports = function (grunt) {
                         cwd: '.tmp/images',
                         dest: '<%= yeoman.dist %>/images',
                         src: ['generated/*']
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.app %>/bower_components/semantic/build/packaged/',
+                        dest: '<%= yeoman.dist %>',
+                        src: ['{fonts,images}/*']
                     }
                 ]
             },
@@ -413,7 +420,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'newer:jshint',
-        'test',
+//        'test',
         'build'
     ]);
 };

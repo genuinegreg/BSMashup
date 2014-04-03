@@ -58,6 +58,7 @@
 <script src="bower_components/angular-touch/angular-touch.js"></script>
 <!-- endbower -->
 <script src="bower_components/semantic/build/packaged/javascript/semantic.js"></script>
+<script src="bower_components/angular-oauth/src/js/angularOauth.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -68,6 +69,7 @@
 <script src="scripts/services/fenopy.js"></script>
 <script src="scripts/directives/episode.js"></script>
 <script src="scripts/directives/semSidebar.js"></script>
+<script src="scripts/controllers/login.js"></script>
 <!-- endbuild -->
 
 
@@ -83,6 +85,10 @@
         $provide.value(
                 'BETA_SERIES_KEY',
                 '4614F428BAD8');
+
+        $provide.value(
+                'BETA_SERIES_SECRET_KEY',
+                '6805b9afc390b0fc1cc20c8c7eabff0e');
 
         $provide.value(
                 'BETA_SERIES_VERSION',
