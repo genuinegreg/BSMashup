@@ -4,7 +4,7 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
     .config(function (localStorageServiceProvider) {
         localStorageServiceProvider.setPrefix('BSMashup.BetaSeries');
     })
-    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_KEY, BETA_SERIES_SECRET_KEY, BETA_SERIES_VERSION, $rootScope, $window, $location, $q) {
+    .service('BetaSeries', function BetaSeriesFactory(Restangular, localStorageService, BETA_SERIES_BASE_URL, BETA_SERIES_CALLBACK_URL, BETA_SERIES_KEY, BETA_SERIES_SECRET_KEY, BETA_SERIES_VERSION, $rootScope, $window, $location, $q) {
 
         var _this = this;
 
@@ -56,7 +56,7 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
             var params = {
                 /* jshint ignore:start */
                 client_id: BETA_SERIES_KEY,
-                redirect_uri: $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/oauth.html'
+                redirect_uri: BETA_SERIES_CALLBACK_URL
                 /* jshint ignore:end */
             };
 
@@ -77,13 +77,13 @@ angular.module('BSMashup.BetaSeries', ['restangular', 'LocalStorageModule'])
             var popupDefered = $q.defer();
 
             $window.open(
-                    'https://www.betaseries.com/authorize?client_id=' + BETA_SERIES_KEY + '&redirect_uri=' + $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/oauth.html',
+                    'https://www.betaseries.com/authorize?client_id=' + BETA_SERIES_KEY + '&redirect_uri=' + BETA_SERIES_CALLBACK_URL,
                 popupOptions.name,
                 formatPopupOptions(popupOptions.openParams));
 
             window.addEventListener('message', function (event) {
                 if (
-                    event.origin === $location.protocol() + '://' + $location.host() + ':' + $location.port() &&
+                    event.origin === location.origin &&
                     event.data.code) {
 
                     popupDefered.resolve(event.data.code);
