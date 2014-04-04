@@ -6,6 +6,9 @@ angular.module('BSMashup.Webapp',
         'restangular',
         'BSMashup.BetaSeries'
     ])
+    .config(function($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|magnet):/);
+    })
     .config(function ($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/series/episodes');
