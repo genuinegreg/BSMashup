@@ -6,7 +6,7 @@ angular.module('BSMashup.Webapp',
         'restangular',
         'BSMashup.BetaSeries'
     ])
-    .config(function($compileProvider) {
+    .config(function ($compileProvider) {
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|magnet):/);
     })
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -22,7 +22,12 @@ angular.module('BSMashup.Webapp',
             .state('series', {
                 abstract: true,
                 url: '/series',
-                templateUrl: '../views/series.html'
+                templateUrl: 'views/series.html',
+                controller: function ($scope) {
+                    $scope.$on('breadcrumb', function (event, breadcrumb) {
+                        $scope.breadcrumb = breadcrumb;
+                    });
+                }
             })
             .state('series.episodes', {
                 url: '/episodes',
@@ -66,7 +71,7 @@ angular.module('BSMashup.Webapp',
                             .then(function (episodeDetails) {
                                 return episodeDetails.episode;
                             })
-                            .then(function(episode) {
+                            .then(function (episode) {
                                 /* jshint ignore:start */
                                 return Fenopy.search(episode.show_title + ' 720p ' + episode.code, 10);
                                 /* jshint ignore:end */

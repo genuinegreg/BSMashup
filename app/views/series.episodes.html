@@ -4,7 +4,7 @@
         {{ show.title }}
     </div>
 
-    <div class="ui divided list attached segment" ng-class="{bottom: show.unseen.length <= 5}">
+    <div class="ui relaxed divided list attached segment" ng-class="{bottom: show.unseen.length <= 5}">
             <episode class="item" show="show" data="ep" ng-repeat="ep in show.unseen | limitTo:5"></episode>
     </div>
     <div class="ui bottom attached icon info message" ng-show="show.unseen.length > 5">

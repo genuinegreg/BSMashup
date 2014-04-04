@@ -1,7 +1,25 @@
 <div class="column">
     <h2 class="ui top attached header">{{ episode.show_title }} - {{ episode.code }} {{ episode.title }}</h2>
-    <div class="ui bottom attached message">
+
+    <div class="ui attached message">
         {{ episode.description }}
+    </div>
+    <div class="ui bottom attached info message">
+
+        <div class="ui icon buttons">
+            <div class="ui button"
+                 ng-class="{basic: episode.user.downloaded}"
+                 ng-click="setDownloaded(episode)">
+                <i class="align download disk icon"></i>
+            </div>
+            <div class="ui button"
+                 ng-class="{basic: episode.user.seen}"
+                 ng-click="setWatched(episode)">
+                <i class="align unhide icon"></i>
+            </div>
+        </div>
+
+        <div class="ui horizontal label">{{episode.note.mean | number:1 }}/5 <i class="ui red heart icon"></i></div>
     </div>
 </div>
 <div class="column">
@@ -13,7 +31,8 @@
 
         <a class="item"
            ng-repeat="torrent in torrents | limitTo:6"
-           ng-href="{{ torrent.magnet }}">
+           ng-href="{{ torrent.magnet }}"
+           ng-click="setDownloaded(episode)">
 
                 <span class="right floated">
                     <div class="ui horizontal label">

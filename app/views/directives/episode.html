@@ -9,7 +9,7 @@
             <div class="ui button"
                  ng-click="openSubtitle(ep)">
                 <i class="text file ouline icon"></i></div>
-        </div>&nbsp;
+        </div>
         <div class="tiny ui teal icon buttons">
             <div class="ui button"
                  ng-class="{basic: ep.user.downloaded}"
@@ -30,6 +30,14 @@
             <a href="#/series/{{ep.show_id}}/episode/{{ep.id}}">
                 {{ ep.title }}
             </a>
+        </div>
+        <div class="ui horizontal label">
+            <i class="ui calendar icon"></i>
+            {{ep.date | date:'mediumDate'}}
+        </div>
+        <div class="ui horizontal label">
+            <i class="ui red heart icon"></i>
+            {{ep.note.mean | number:1}}/5
         </div>
     </div>
 </div>

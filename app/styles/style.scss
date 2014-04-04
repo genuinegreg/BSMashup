@@ -3,6 +3,13 @@ html, body {
   margin: 0;
   padding: 0;
 }
+.ui.attached.message {
+//  max-height: 8.2rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  text-align: justify;
+}
 
 #bsmashup-content {
   margin: 3rem 4rem;
@@ -31,4 +38,10 @@ h1.ui.header {
 
 .sitebanner {
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 5px !important;
+}
+
+a:-webkit-any-link {
+  color: inherit;
+  text-decoration: inherit;
+  cursor: auto;
 }
