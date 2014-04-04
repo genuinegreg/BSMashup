@@ -1,6 +1,5 @@
 <div>
     <div class="right floated">
-
         <div class="tiny ui icon buttons">
             <div class="ui button"
                  ng-click="openMagnet(ep, show)">
@@ -31,13 +30,15 @@
                 {{ ep.title }}
             </a>
         </div>
-        <div class="ui horizontal label">
-            <i class="ui calendar icon"></i>
-            {{ep.date | date:'mediumDate'}}
-        </div>
-        <div class="ui horizontal label">
-            <i class="ui red heart icon"></i>
-            {{ep.note.mean | number:1}}/5
+        <div class="ui small labels">
+            <div class="ui label">
+                <i class="ui calendar icon"></i>
+                {{ep.date | date:'mediumDate'}}
+            </div>
+            <div class="ui  label">
+                <i class="ui red heart icon"></i>
+                {{ep.note.mean | number:1}}/5
+            </div>
         </div>
     </div>
 </div>
