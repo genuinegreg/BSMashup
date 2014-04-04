@@ -23,11 +23,11 @@ angular.module('BSMashup.Webapp',
                 abstract: true,
                 url: '/series',
                 templateUrl: 'views/series.html',
-                controller: function ($scope) {
+                controller: ['$scope', function ($scope) {
                     $scope.$on('breadcrumb', function (event, breadcrumb) {
                         $scope.breadcrumb = breadcrumb;
                     });
-                }
+                }]
             })
             .state('series.episodes', {
                 url: '/episodes',
