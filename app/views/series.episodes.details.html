@@ -5,8 +5,43 @@
     </div>
 </div>
 <div class="column">
+
     <div class="ui top attached header">
-        Sous-titre
+        Magnets
+    </div>
+    <div class="ui bottom attached selection list segment">
+
+        <a class="item"
+           ng-repeat="torrent in torrents | limitTo:6"
+           ng-href="{{ torrent.magnet }}">
+
+                <span class="right floated">
+                    <div class="ui horizontal label">
+                        {{ torrent.size / 1024 / 1024 | number:0}}mo
+                    </div>
+
+                        <div class="ui horizontal label">
+                            <i class="upload icon"></i> {{ torrent.seeder }}
+                        </div>
+
+                        <div class="ui horizontal label">
+                            <i class="download icon"></i> {{ torrent.leecher }}
+                        </div>
+                </span>
+
+            <i class="ui magnet icon"></i>
+
+            <div class="content">
+                <div class="header">
+                    {{ torrent.name }}
+                </div>
+
+            </div>
+        </a>
+    </div>
+
+    <div class="ui top attached header">
+        Sous-titres
     </div>
     <div class="ui bottom attached segment selection list">
         <a class="item"
@@ -26,41 +61,6 @@
 
             <div class="content">
                 <div class="header">{{ sub.file }}</div>
-            </div>
-        </a>
-    </div>
-
-    <div class="ui top attached header">
-        Magnets
-    </div>
-    <div class="ui bottom attached selection list segment">
-
-        <a class="item"
-           ng-repeat="torrent in torrents"
-           ng-href="{{ torrent.magnet }}">
-
-                <span class="right floated">
-                    <div class="ui horizontal label">
-                        {{ torrent.size / 1024 / 1024 | number:0}}mo
-                    </div>
-
-                        <div class="ui horizontal label">
-                            <i class="upload icon"></i> {{ torrent.seeder }}
-                        </div>
-
-                        <div class="ui horizontal label">
-                            <i class="download icon"></i> {{ torrent.leecher }}
-                        </div>
-                </span>
-
-
-            <i class="ui magnet icon"></i>
-
-            <div class="content">
-                <div class="header">
-                    {{ torrent.name }}
-                </div>
-
             </div>
         </a>
     </div>
