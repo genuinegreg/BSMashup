@@ -1,0 +1,44 @@
+<div>
+    <div class="right floated">
+        <div class="tiny ui icon buttons">
+            <div class="ui button"
+                 ng-click="openMagnet(ep, show)">
+                <i class="magnet icon"></i>
+            </div>
+            <div class="ui button"
+                 ng-click="openSubtitle(ep)">
+                <i class="text file ouline icon"></i></div>
+        </div>
+        <div class="tiny ui teal icon buttons">
+            <div class="ui button"
+                 ng-class="{basic: ep.user.downloaded}"
+                 ng-click="setDownloaded(ep)">
+                <i class="align download disk icon"></i>
+            </div>
+            <div class="ui button"
+                 ng-class="{basic: ep.user.seen}"
+                 ng-click="setWatched(ep)">
+                <i class="align unhide icon"></i></div>
+        </div>
+    </div>
+    <i class="ui video icon"></i>
+
+    <div class="content">
+        <div class="header">
+            {{ ep.code }} -
+            <a href="#/series/{{ep.show_id}}/episode/{{ep.id}}">
+                {{ ep.title }}
+            </a>
+        </div>
+        <div class="ui small labels">
+            <div class="ui label">
+                <i class="ui calendar icon"></i>
+                {{ep.date | date:'mediumDate'}}
+            </div>
+            <div class="ui  label">
+                <i class="ui red heart icon"></i>
+                {{ep.note.mean | number:1}}/5
+            </div>
+        </div>
+    </div>
+</div>

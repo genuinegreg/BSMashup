@@ -1,5 +1,6 @@
 {
     "node": true,
+    "jquery": true,
     "browser": true,
     "esnext": true,
     "bitwise": true,
@@ -14,11 +15,12 @@
     "quotmark": "single",
     "regexp": true,
     "undef": true,
-    "unused": true,
+    "unused": false,
     "strict": true,
     "trailing": true,
     "smarttabs": true,
     "globals": {
-        "angular": false
+        "angular": false,
+        "NProgress": false
     }
 }

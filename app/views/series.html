@@ -1,0 +1,35 @@
+<i class="big list layout icon link icon" style="position: absolute; top: 1rem; left: 1rem"></i>
+
+<div class="ui attached inverted purple segment sitebanner">
+
+    <div class="ui page grid">
+        <div class="ui right aligned sixteen wide right floated column">
+            <a class="ui purple button" href="#/config">Config</a>
+
+            <div class="ui purple button" ng-click="logout()">Logout</div>
+        </div>
+        <div class="sixteen wide column">
+
+            <h1 class="ui header">BSMashup</h1>
+
+            <!--<div class="ui huge breadcrumb">-->
+                <!--<a class="section" href="#/series/episodes">Series</a>-->
+
+                <!--<div class="divider"> /</div>-->
+                <!--<a class="active section">Episodes</a>-->
+            <!--</div>-->
+
+            <div class="ui huge breadcrumb">
+                <span ng-repeat="bread in breadcrumb">
+                    <a class="section"
+                       ng-class="{active: $last}"
+                       ng-href="{{bread[1]}}">{{ bread[0] }}</a>
+                    <div class="divider" ng-hide="$last"> /</div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui one column doubling page grid" ui-view></div>
+
