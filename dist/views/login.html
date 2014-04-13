@@ -1,0 +1,9 @@
+<div class="ui sixteen wide page grid">
+    <div class="column">
+        <h1 class="ui header">This is the login view.</h1>
+
+        <button type="button" class="ui positive button" ng-class="{disabled: loggedIn}" ng-click="login()" ng-disabled="loggedIn">Login on BetaSeries</button>
+
+        <button type="button" class="ui negative button" ng-class="{disabled: !loggedIn}" ng-click="logout()" ng-disabled="!loggedIn">Logout from BetaSeries</button>
+    </div>
+</div>
