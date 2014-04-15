@@ -1,9 +1,11 @@
 <div class="column">
 
-    <div class="ui black horizontal label" ng-repeat="show in shows">
+    <div class="ui black label" ng-repeat="show in shows">
         <a target="_self" ng-href="#{{ show.id }}">
             {{ show.title }}
-            <i class="ui video icon"></i> {{ show.unseen.length }}
+            <span class="detail">
+                <i class="ui video icon"></i> {{ show.unseen.length }}
+            </span>
         </a>
     </div>
 </div>
