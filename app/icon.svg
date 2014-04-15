@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="192"
+   height="192"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/greg/Dev/Projects/BSMashup/app/favicon.png"
+   inkscape:export-xdpi="15"
+   inkscape:export-ydpi="15">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="80.102297"
+     inkscape:cy="88.303879"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-860.36218)">
+    <g
+       style="font-size:153.6363678px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+       id="text2985">
+      <path
+         d="m 123.43507,964.59267 c -1.1e-4,-0.80013 -0.25732,-1.45743 -0.77162,-1.97189 -0.51451,-0.51435 -1.17181,-0.77156 -1.97189,-0.77161 l -19.20455,0 0,-30.17857 c -8e-5,-0.74295 -0.28587,-1.37167 -0.85734,-1.88617 -0.5145,-0.57147 -1.143216,-0.85725 -1.886163,-0.85734 l -16.46104,0 c -0.7431,9e-5 -1.400398,0.28587 -1.971895,0.85734 -0.514473,0.5145 -0.771677,1.14322 -0.771611,1.88617 l 0,30.17857 -19.204546,0 c -0.743079,5e-5 -1.400377,0.28583 -1.971895,0.85734 -0.514452,0.51446 -0.771656,1.14318 -0.771612,1.88616 -4.4e-5,0.80025 0.25716,1.45754 0.771612,1.9719 l 30.178572,30.17857 c 0.514332,0.51443 1.17163,0.77163 1.971895,0.77161 0.800112,2e-5 1.45741,-0.25718 1.971895,-0.77161 L 122.57772,966.6503 c 0.57145,-0.68582 0.85724,-1.3717 0.85735,-2.05763 m 54.87013,19.20455 c -1.7e-4,9.08789 -3.2295,16.86118 -9.68801,23.31978 -6.40166,6.4015 -14.14635,9.6023 -23.23407,9.6023 l -93.279225,0 c -10.573959,0 -19.633237,-3.7437 -27.177862,-11.2312 -7.48749,-7.54465 -11.23123,-16.60393 -11.23123,-27.17789 0,-7.43029 2.000472,-14.28905 6.001421,-20.5763 4.000937,-6.28714 9.373632,-11.00254 16.118101,-14.14621 -0.114335,-1.71461 -0.171491,-2.94348 -0.171469,-3.68658 -2.2e-5,-12.11707 4.286703,-22.46237 12.860187,-31.03592 8.573414,-8.57334 18.91871,-12.86007 31.035918,-12.86019 8.916321,1.2e-4 17.061098,2.48642 24.434359,7.45891 7.43023,4.97271 12.8315,11.57427 16.20383,19.80469 4.05799,-3.5436 8.80197,-5.31545 14.23194,-5.31555 6.05845,10e-5 11.2311,2.14346 15.51796,6.4301 4.28659,4.28681 6.42995,9.45946 6.43009,15.51796 -1.4e-4,4.34395 -1.17184,8.28774 -3.51511,11.83137 7.43018,1.77191 13.51733,5.65854 18.26146,11.6599 4.80098,5.94431 7.20154,12.74592 7.20171,20.40483"
+         style=""
+         id="path2990" />
+    </g>
+  </g>
+</svg>
