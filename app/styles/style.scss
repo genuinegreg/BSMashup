@@ -3,11 +3,12 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
 .ui.attached.message {
-//  max-height: 8.2rem !important;
+  //  max-height: 8.2rem !important;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space:nowrap;
+  white-space: nowrap;
   text-align: justify;
 }
 
@@ -29,7 +30,7 @@ h1.ui.header {
   color: #DDD !important;
 }
 
-.ui.list, .message {
+.ui.list, .message, .landing, .footer {
   a {
     color: #009FDA;
     text-decoration: none;
@@ -40,8 +41,10 @@ h1.ui.header {
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 5px !important;
 }
 
-a:-webkit-any-link {
-  color: inherit;
-  text-decoration: inherit;
-  cursor: auto;
+.ui .breadcrumb, .ui .label {
+  a:-webkit-any-link {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: auto;
+  }
 }
